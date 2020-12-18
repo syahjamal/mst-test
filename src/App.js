@@ -1,9 +1,17 @@
-import React, {useState} from 'react';
+import fetch from "cross-fetch";
+import React, {useState, useEffect} from 'react';
 import TextField from '@material-ui/core/TextField';
 import Autocomplete from '@material-ui/lab/Autocomplete';
+import CircularProgress from "@material-ui/core/CircularProgress"
 import mst from './images/mst.jpg';
 import './App.css';
-import axios from 'axios';
+
+// function sleep(delay = 0){
+//   return new Promise(resolve => {
+//     setTimeout(resolve, delay)
+//   })
+// }
+
 
 function App() {
   // Top 100 films as rated by IMDb users. http://www.imdb.com/chart/top
@@ -110,6 +118,27 @@ const top100Films = [
   { title: 'Monty Python and the Holy Grail', year: 1975 },
 ];
 
+const [open, setOpen] = useState(false);
+const [options, setOptions] = useState([]);
+const loading = open && options.length === 0;
+
+const onChangeHandle = async value =>{
+  console.log(value);
+  const response = await fetch(
+    "https://postal-api.onphpid.com/provinces"
+  );
+  const province = await response.json();
+  setOptions(Object.keys(province).map(key => province[key].data[0]));
+
+}
+
+useEffect(() => {
+  if(!open){
+    setOptions([])
+  }
+}, [open])
+
+
   return (
     <div className="App">
       <div className="App__container">
@@ -118,14 +147,43 @@ const top100Films = [
               <h2>Cari data provinsi</h2>
           </div>
           <div style={{width: 400}}>
-            
             {/* Province */}
            <Autocomplete
               id="free-solo-demo"
               freeSolo
-              options= {top100Films.map((option) => option.title)}
+              open={open}
+              onOpen={() => {
+                setOpen(true);
+              }}
+              onClose={() => {
+                setOpen(false);
+              }}
+              getOptionSelected={(option, value) => option.name === value.name}
+              getOptionLabel={option => option.name}
+              options={options}
+              loading={loading}
               renderInput={(params) => (
-                <TextField {...params} label="province" margin="normal" variant="outlined" />
+                <TextField {...params} 
+                label="province" 
+                margin="normal" 
+                variant="outlined" 
+                onChange={ev => {
+                  if (ev.target.value !== "" || ev.target.value !== null) {
+                    onChangeHandle(ev.target.value);
+                    console.log(onChangeHandle)
+                  }
+                }}
+                InputProps={{
+                  ...params.InputProps,
+                  endAdornment: (
+                    <React.Fragment>
+                      {loading ? (
+                        <CircularProgress color="inherit" size={20} />
+                      ) : null}
+                      {params.InputProps.endAdornment}
+                    </React.Fragment>
+                  )
+                }}/>
               )}
             />
             <Autocomplete
