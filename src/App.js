@@ -117,7 +117,7 @@ const onChangeHandleKec = async (value) =>{
               onChange={(ev, value) => setTitle(value)}
               renderInput={(params) => (
                 <TextField {...params} 
-                label="province" 
+                label="Provinsi" 
                 margin="normal" 
                 variant="outlined" 
                 onChange={(ev,val) => {
@@ -158,7 +158,7 @@ const onChangeHandleKec = async (value) =>{
               onChange={(event, value) => setTitleKota(value)}
               renderInput={(params) => (
                 <TextField {...params} 
-                label="Kota" 
+                label="Kota/Kabupaten" 
                 margin="normal" 
                 variant="outlined" 
                 onChange={ev => {
@@ -194,8 +194,8 @@ const onChangeHandleKec = async (value) =>{
               }}
               getOptionSelected={(option, value) => option.nama === value.nama}
               getOptionLabel={option => option.nama}
-              options={optionsKota}
-              loading={loadingKota}
+              options={optionsKec}
+              loading={loadingKec}
               onChange={(event, value) => setTitleKec(value)}
               renderInput={(params) => (
                 <TextField {...params} 
