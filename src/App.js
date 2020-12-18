@@ -6,12 +6,6 @@ import CircularProgress from "@material-ui/core/CircularProgress"
 import mst from './images/mst.jpg';
 import './App.css';
 
-// function sleep(delay = 0){
-//   return new Promise(resolve => {
-//     setTimeout(resolve, delay)
-//   })
-// }
-
 
 function App() {
   // Top 100 films as rated by IMDb users. http://www.imdb.com/chart/top
