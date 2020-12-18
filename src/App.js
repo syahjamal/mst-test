@@ -44,12 +44,11 @@ const loadingKota = openKota && optionsKota.length === 0;
 const [titleKota, setTitleKota]=useState('');
 
 
-var a = title.id
 const onChangeHandleKota = async (value) =>{
 console.log(value);
 const response = await fetch(
     // "https://postal-api.onphpid.com/provinces"
-    "https://ibnux.github.io/data-indonesia/kabupaten/"+a+".json"
+    "https://ibnux.github.io/data-indonesia/kabupaten/"+title.id+".json"
 );
 const province = await response.json();
 setoptionsKota(Object.keys(province).map(key => province[key]));
@@ -70,13 +69,11 @@ const loadingKec = openKec && optionsKec.length === 0;
 
 const [titelKec, setTitleKec]=useState('')
 
-console.log(titelKec)
-var b = titleKota.id
 const onChangeHandleKec = async (value) =>{
   console.log(value);
   const response = await fetch(
       // "https://postal-api.onphpid.com/provinces"
-      "https://ibnux.github.io/data-indonesia/kecamatan/"+b+".json"
+      "https://ibnux.github.io/data-indonesia/kecamatan/"+titleKota.id+".json"
   );
   const kecamatan = await response.json();
   setOptionsKec(Object.keys(kecamatan).map(key => kecamatan[key]));
