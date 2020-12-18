@@ -122,7 +122,7 @@ const onChangeHandle = async (value) =>{
   console.log(value);
   const response = await fetch(
     // "https://postal-api.onphpid.com/provinces"
-    api("/propinsi.json")
+    "https://ibnux.github.io/data-indonesia/propinsi.json"
   );
   const province = await response.json();
   setOptions(Object.keys(province).map(key => province[key]));
