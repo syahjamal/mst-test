@@ -14,11 +14,12 @@ function Provinsi() {
     const onChangeHandle = async (value) =>{
     console.log(value);
     const response = await fetch(
-        // "https://postal-api.onphpid.com/provinces"
-        "https://ibnux.github.io/data-indonesia/propinsi.json"
+        "https://postal-api.onphpid.com/provinces"
+        // "https://ibnux.github.io/data-indonesia/propinsi.json"
     );
     const province = await response.json();
-    setOptions(Object.keys(province).map(key => province[key]));
+    const province_data = province["data"]
+    setOptions(Object.keys(province_data).map(key => province_data[key]["name"]["id"]));
 
     }
 
@@ -40,8 +41,8 @@ function Provinsi() {
               onClose={() => {
                 setOpen(false);
               }}
-              getOptionSelected={(option, value) => option.nama === value.nama}
-              getOptionLabel={option => option.nama}
+              getOptionSelected={(option, value) => option=== value}
+              getOptionLabel={option => option}
               options={options}
               loading={loading}
               renderInput={(params) => (
