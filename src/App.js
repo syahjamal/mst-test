@@ -62,12 +62,12 @@ if(!openKota){
 }, [openKota])
 
 // ============================================================
-// Sub District
+// Kecamatan
 const[openKec, setOpenKec] = useState(false);
 const[optionsKec, setOptionsKec] = useState([]);
 const loadingKec = openKec && optionsKec.length === 0;
 
-const [titelKec, setTitleKec]=useState('')
+const [titleKec, setTitleKec]=useState('')
 
 const onChangeHandleKec = async (value) =>{
   console.log(value);
@@ -85,6 +85,31 @@ const onChangeHandleKec = async (value) =>{
       setOptionsKec([])
   }
   }, [openKec])
+
+// ============================================================
+// Kelurahan
+const[openKel, setOpenKel] = useState(false);
+const[optionsKel, setOptionsKel] = useState([]);
+const loadingKel = openKel && optionsKel.length === 0;
+
+const [titleKel, setTitleKel]=useState('')
+
+const onChangeHandleKel = async (value) =>{
+  console.log(value);
+  const response = await fetch(
+      // "https://postal-api.onphpid.com/provinces"
+      "https://ibnux.github.io/data-indonesia/kelurahan/"+titleKec.id+".json"
+  );
+  const kelurahan = await response.json();
+  setOptionsKec(Object.keys(kelurahan).map(key => kelurahan[key]));
+  
+  }
+  
+  useEffect(() => {
+  if(!openKel){
+      setOptionsKel([])
+  }
+  }, [openKel])
 
 
   return (
@@ -217,19 +242,43 @@ const onChangeHandleKec = async (value) =>{
                 }}/>
               )}
             />
-            <Autocomplete
+            {/* Kelurahan/Desa */}
+           <Autocomplete 
+              id="App"
               freeSolo
-              id="free-solo-2-demo"
-              disableClearable
-              // options={top100Films.map((option) => option.title)}
+              open={openKel}
+              onOpen={() => {
+                setOpenKel(true);
+              }}
+              onClose={() => {
+                setOpenKel(false);
+              }}
+              getOptionSelected={(option, value) => option.nama === value.nama}
+              getOptionLabel={option => option.nama}
+              options={optionsKel}
+              loading={loadingKel}
+              onChange={(event, value) => setTitleKel(value)}
               renderInput={(params) => (
-                <TextField
-                  {...params}
-                  label="Urban"
-                  margin="normal"
-                  variant="outlined"
-                  InputProps={{ ...params.InputProps, type: 'search' }}
-                />
+                <TextField {...params} 
+                label="Kelurahan/Desa" 
+                margin="normal" 
+                variant="outlined" 
+                onChange={ev => {
+                  if (ev.target.value !== "" || ev.target.value !== null) {
+                    onChangeHandleKel(ev.target.value);
+                  }
+                }}
+                InputProps={{
+                  ...params.InputProps,
+                  endAdornment: (
+                    <React.Fragment>
+                      {loadingKel ? (
+                        <CircularProgress color="inherit" size={20} />
+                      ) : null}
+                      {params.InputProps.endAdornment}
+                    </React.Fragment>
+                  )
+                }}/>
               )}
             />
             <Autocomplete
