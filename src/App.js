@@ -62,12 +62,12 @@ if(!openKota){
 }, [openKota])
 
 // ============================================================
-// Kecamatan
+// Sub District
 const[openKec, setOpenKec] = useState(false);
 const[optionsKec, setOptionsKec] = useState([]);
 const loadingKec = openKec && optionsKec.length === 0;
 
-const [titleKec, setTitleKec]=useState('')
+const [titelKec, setTitleKec]=useState('')
 
 const onChangeHandleKec = async (value) =>{
   console.log(value);
@@ -86,22 +86,23 @@ const onChangeHandleKec = async (value) =>{
   }
   }, [openKec])
 
-// ============================================================
-// Kelurahan
+  // ============================================================
+// Keulrahan
 const[openKel, setOpenKel] = useState(false);
 const[optionsKel, setOptionsKel] = useState([]);
 const loadingKel = openKel && optionsKel.length === 0;
 
-const [titleKel, setTitleKel]=useState('')
+const [titelKel, setTitleKel]=useState('')
 
+console.log(titelKel)
 const onChangeHandleKel = async (value) =>{
   console.log(value);
   const response = await fetch(
       // "https://postal-api.onphpid.com/provinces"
-      "https://ibnux.github.io/data-indonesia/kelurahan/"+titleKec.id+".json"
+      "https://ibnux.github.io/data-indonesia/kelurahan/"+titelKec.id+".json"
   );
   const kelurahan = await response.json();
-  setOptionsKec(Object.keys(kelurahan).map(key => kelurahan[key]));
+  setOptionsKel(Object.keys(kelurahan).map(key => kelurahan[key]));
   
   }
   
@@ -242,8 +243,8 @@ const onChangeHandleKel = async (value) =>{
                 }}/>
               )}
             />
-            {/* Kelurahan/Desa */}
-           <Autocomplete 
+              {/* Kelurahan */}
+              <Autocomplete 
               id="App"
               freeSolo
               open={openKel}
@@ -260,7 +261,7 @@ const onChangeHandleKel = async (value) =>{
               onChange={(event, value) => setTitleKel(value)}
               renderInput={(params) => (
                 <TextField {...params} 
-                label="Kelurahan/Desa" 
+                label="Kelurahan" 
                 margin="normal" 
                 variant="outlined" 
                 onChange={ev => {
@@ -285,7 +286,6 @@ const onChangeHandleKel = async (value) =>{
               freeSolo
               id="free-solo-2-demo"
               disableClearable
-              // options={top100Films.map((option) => option.title)}
               renderInput={(params) => (
                 <TextField
                   {...params}
