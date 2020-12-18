@@ -3,7 +3,6 @@ import React, {useState, useEffect} from 'react';
 import TextField from '@material-ui/core/TextField';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import CircularProgress from "@material-ui/core/CircularProgress"
-import api from '../Axios';
 
 function Provinsi() {
 
@@ -16,9 +15,9 @@ function Provinsi() {
     console.log(value);
     const response = await fetch(
         // "https://postal-api.onphpid.com/provinces"
-        api("/propinsi.json")
+        "https://ibnux.github.io/data-indonesia/propinsi.json"
     );
-    const province = response.json();
+    const province = await response.json();
     setOptions(Object.keys(province).map(key => province[key]));
 
     }
