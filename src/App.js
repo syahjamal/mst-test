@@ -5,6 +5,7 @@ import Autocomplete from '@material-ui/lab/Autocomplete';
 import CircularProgress from "@material-ui/core/CircularProgress"
 import mst from './images/mst.jpg';
 import './App.css';
+import api from './Axios';
 
 
 function App() {
@@ -116,13 +117,15 @@ const [open, setOpen] = useState(false);
 const [options, setOptions] = useState([]);
 const loading = open && options.length === 0;
 
-const onChangeHandle = async value =>{
+
+const onChangeHandle = async (value) =>{
   console.log(value);
   const response = await fetch(
-    "https://postal-api.onphpid.com/provinces"
+    // "https://postal-api.onphpid.com/provinces"
+    api("/propinsi.json")
   );
   const province = await response.json();
-  setOptions(Object.keys(province).map(key => province[key].data[0]));
+  setOptions(Object.keys(province).map(key => province[key]));
 
 }
 
@@ -143,7 +146,7 @@ useEffect(() => {
           <div style={{width: 400}}>
             {/* Province */}
            <Autocomplete
-              id="free-solo-demo"
+              id="App"
               freeSolo
               open={open}
               onOpen={() => {
@@ -152,8 +155,8 @@ useEffect(() => {
               onClose={() => {
                 setOpen(false);
               }}
-              getOptionSelected={(option, value) => option.name === value.name}
-              getOptionLabel={option => option.name}
+              getOptionSelected={(option, value) => option.nama === value.nama}
+              getOptionLabel={option => option.nama}
               options={options}
               loading={loading}
               renderInput={(params) => (
